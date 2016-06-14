@@ -22,18 +22,21 @@ def bfs(root, explored=None, reverse=False):
             break
 
         # Get the valid edge with the longest overlap
-        edges = node.sorted_edges(reverse=reverse) or []
-        edges = [
-            e for e in edges
-            if e.node not in frontier and e.node not in explored]
+        edges = node.edges(reverse=reverse) or []
+        edge = node.longest_edge(reverse=reverse)
 
         # This node is a leaf
-        if len(edges) == 0:
+        if edge is None:
             break
+
+        for e in edges:
+            if e.node in frontier or e.node in explored:
+                continue
+            if len(e.label) > len(edge).label:
+                edge = e
 
         # Queue the next best edge for exploration
         explored.add(node)
-        edge = edges[0]
         frontier.put(edge.node)
         path.append(edge)
 

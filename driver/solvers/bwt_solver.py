@@ -43,8 +43,8 @@ def build_overlap_graph(reads, tau=3):
                 if match == read.value:
                     continue
                 edge_node = lib.reads[match]
-                read.out_edges.append(Edge(edge_node, label))
-                edge_node.in_edges.append(Edge(read, label))
+                read.add_out_edge(Edge(edge_node, label))
+                edge_node.add_in_edge(Edge(read, label))
     return lib.reads
 
 """
