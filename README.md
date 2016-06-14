@@ -200,7 +200,7 @@ For more on the FM Index, have a look at [this article](http://alexbowe.com/fm-i
 
 # References
 
-- [The FM-Index and Genome Assembly](ftp://ftp.sanger.ac.uk/pub/resources/theses/js18/chapter2.pdf)
+- The FM-Index and Genome Assembly: ftp://ftp.sanger.ac.uk/pub/resources/theses/js18/chapter2.pdf
 - [Next-Generation Sequence Assembly: Four Stages of Data Processing and Computational Challenges. El-Metwally, et. Al](http://journals.plos.org/ploscompbiol/article/asset?id=10.1371%2Fjournal.pcbi.1003345.PDF)
 - [FM-Indexes and Backwards Search. Alex Bowe. (2011)](http://alexbowe.com/fm-index/)
 - [Introduction to the Burrows-Wheeler Transform and FM Index. Langmead, Ben. (2013)](http://www.cs.jhu.edu/~langmea/resources/bwt_fm.pdf)
