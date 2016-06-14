@@ -8,58 +8,59 @@ class CheckableQueue(Queue):
             return item in self.queue
 
 
+def bfs(root, explored=None, reverse=False):
+    frontier = CheckableQueue()
+    frontier.put(root)
+    path = []
+    explored = explored or set()
+
+    while not frontier.empty():
+        node = frontier.get()
+
+        # We are revisiting a node that's already been explored
+        if node in explored:
+            break
+
+        # Get the valid edge with the longest overlap
+        edges = node.sorted_edges(reverse=reverse) or []
+        edges = [
+            e for e in edges
+            if e.node not in frontier and e.node not in explored]
+
+        # This node is a leaf
+        if len(edges) == 0:
+            break
+
+        # Queue the next best edge for exploration
+        explored.add(node)
+        edge = edges[0]
+        frontier.put(edge.node)
+        path.append(edge)
+
+    return path if reverse is False else reversed(path)
+
+
 def assemble(overlaps):
-    best_sequence = None
-    sequences = set()
-    longest_path = 0
+    # Pick a node at random
+    root = overlaps[0]
 
-    # Implements "best"-first search
-    # Run one search for each overlap record
-    # so we can compute all possible assemblies
-    # and determine the best
-    #
-    # The proper heuristic for determining the best assembly
-    # is TBD, but for a first pass, assemblies are evaluated
-    # based on path length (traversal depth)
-    for root in overlaps:
-        frontier = CheckableQueue()
-        frontier.put(root)
-        path = []
-        explored = set()
+    # Walk backwards until a node with no in-edges is found
+    # (or until we reach a visited node)
+    reverse_path = list(bfs(root, reverse=True))
+    forward_path = bfs(root)
 
-        while not frontier.empty():
-            node = frontier.get()
+    # Initialize sequence
+    sequence = ''
 
-            # We are revisiting a node that's already been explored
-            if node in explored:
-                break
+    # Walk through path upstream to root
+    for edge in reverse_path:
+        sequence += edge.node.value[:-len(edge.label)]
 
-            # Get the valid edge with the longest overlap
-            edges = node.sorted_edges() or []
-            edges = [
-                e for e in edges
-                if e.node not in frontier and e.node not in explored]
+    # Append root value
+    sequence += root.value
 
-            # This node is a leaf
-            if len(edges) == 0:
-                break
+    # Walk through path downstream from root
+    for edge in forward_path:
+        sequence += edge.node.value[len(edge.label):]
 
-            # Queue the next best edge for exploration
-            explored.add(node)
-            edge = edges[0]
-            frontier.put(edge.node)
-            path.append(edge)
-
-        # Merge the sequences, starting with root
-        sequence = root.value
-        for edge in path:
-            sequence += edge.node.value[len(edge.label):]
-
-        # Test traversal depth (quality heuristic)
-        if len(path) > longest_path:
-            best_sequence = sequence
-            longest_path = len(path)
-
-        sequences.add(sequence)
-
-    return best_sequence, sequences
+    return sequence

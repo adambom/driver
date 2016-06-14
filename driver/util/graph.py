@@ -19,12 +19,8 @@ class Node(object):
         """Get the length of the value string."""
         return len(self.value)
 
-    def sorted_edges(self):
-        if len(self.out_edges) == 0:
+    def sorted_edges(self, reverse=False):
+        edges = self.in_edges if reverse is True else self.out_edges
+        if len(edges) == 0:
             return None
-        return sorted(self.out_edges, key=lambda x: -len(x.label))
-
-    # def get_best_edge(self):
-    #     if len(self.out_edges) == 0:
-    #         return None
-    #     [0]
+        return sorted(edges, key=lambda x: -len(x.label))

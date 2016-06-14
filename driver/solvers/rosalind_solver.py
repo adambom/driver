@@ -14,6 +14,7 @@ def build_overlap_graph(reads):
                 suffix = x.value[i:]
                 if y.value.startswith(suffix):
                     x.out_edges.append(Edge(y, suffix))
+                    y.in_edges.append(Edge(x, suffix))
     return reads
 
 

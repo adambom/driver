@@ -19,9 +19,8 @@ def main():
     print'Reconstructing the Rosalind sequence using our naive solver'
     reads = rosalind.get_reads()
     start = time.clock()
-    x, y = rosalind_solver.solve(reads)
-    y = sorted(y, key=lambda x: -len(x))
-    print 'Best assembly: %s' % y[0]
+    result = rosalind_solver.solve(reads)
+    print 'Found assembly: %s' % result
     print 'Computed in %fs' % (time.clock() - start)
 
     linebreak(n=5)
@@ -29,9 +28,8 @@ def main():
     print'Reconstructing the Rosalind sequence using our BWT solver'
     reads = rosalind.get_reads()
     start = time.clock()
-    x, y = bwt_solver.solve(reads, tau=100)
-    y = sorted(y, key=lambda x: -len(x))
-    print 'Best assembly: %s' % y[0]
+    result = bwt_solver.solve(reads, tau=100)
+    print 'Found assembly: %s' % result
     print 'Computed in %fs' % (time.clock() - start)
 
     linebreak(n=5)
@@ -42,9 +40,8 @@ def main():
         'from %i reads of %i to %i symbols long' % (N, min_len, max_len))
     reads = gettysburg.get_reads(N, min_len, max_len)
     start = time.clock()
-    x, y = bwt_solver.solve(reads, tau=10)
-    y = sorted(y, key=lambda x: -len(x))
-    print 'Best assembly: %s' % y[0]
+    result = bwt_solver.solve(reads, tau=10)
+    print 'Found assembly: %s' % result
     print 'Computed in %fs' % (time.clock() - start)
 
     linebreak(n=5)
@@ -55,9 +52,8 @@ def main():
         'from %i reads of %i to %i symbols long' % (N, min_len, max_len))
     reads = tubthumping.get_reads(N, min_len, max_len)
     start = time.clock()
-    x, y = bwt_solver.solve(reads, tau=25)
-    y = sorted(y, key=lambda x: -len(x))
-    print 'Best assembly: %s' % y[0]
+    result = bwt_solver.solve(reads, tau=25)
+    print 'Found assembly: %s' % result
     print 'Computed in %fs' % (time.clock() - start)
 
 if __name__ == '__main__':
