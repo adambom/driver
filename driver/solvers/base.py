@@ -29,11 +29,21 @@ def bfs(root, explored=None, reverse=False):
         if edge is None:
             break
 
-        for e in edges:
-            if e.node in frontier or e.node in explored:
-                continue
-            if len(e.label) > len(edge).label:
-                edge = e
+        # Node has already been explored. Find another eligible node.
+        if edge.node in frontier or edge.node in explored:
+            new_edge = None
+            for e in edges:
+                if e is edge:
+                    continue
+                if e.node in frontier or e.node in explored:
+                    continue
+                if new_edge is None or len(e.label) > len(edge).label:
+                    new_edge = e
+            edge = new_edge
+
+        # Node's neighbors have all been explored
+        if edge is None:
+            break
 
         # Queue the next best edge for exploration
         explored.add(node)
